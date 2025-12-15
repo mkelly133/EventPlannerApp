@@ -47,10 +47,18 @@ A simple, interactive web application for managing events with user authenticati
    ```
 
 4. **Run the application**:
+   
+   **Development mode (with debug enabled):**
+   ```bash
+   export FLASK_DEBUG=true
+   python app.py
+   ```
+   Or using Flask CLI:
    ```bash
    flask --debug run
    ```
-   Or using Python directly:
+   
+   **Production mode:**
    ```bash
    python app.py
    ```
@@ -163,6 +171,12 @@ EventPlannerApp/
 
 ### Running in Debug Mode
 
+**For development only:**
+```bash
+export FLASK_DEBUG=true
+python app.py
+```
+Or:
 ```bash
 flask --debug run
 ```
@@ -170,6 +184,22 @@ flask --debug run
 Debug mode enables:
 - Auto-reload on code changes
 - Detailed error messages
+- Interactive debugger
+
+**⚠️ Warning:** Never run in debug mode in production! Debug mode can expose sensitive information and allow arbitrary code execution.
+
+### Production Deployment
+
+For production, it's recommended to:
+1. Set `FLASK_DEBUG=false` or leave it unset
+2. Use a production WSGI server like Gunicorn or uWSGI:
+   ```bash
+   pip install gunicorn
+   gunicorn -w 4 -b 0.0.0.0:8000 app:app
+   ```
+3. Use environment variables for secrets (don't use the default SECRET_KEY)
+4. Enable HTTPS
+5. Use a reverse proxy like Nginx
 - Debug toolbar
 
 ### Database Management

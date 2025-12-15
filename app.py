@@ -202,4 +202,8 @@ def delete_event(event_id):
     return redirect(url_for('dashboard'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Only enable debug mode in development
+    # In production, use a WSGI server like gunicorn
+    import os
+    debug_mode = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
+    app.run(debug=debug_mode)
