@@ -22,8 +22,19 @@
       ]
     },
     "vscode": {
-      "extensions": [
-        "ms-python.python"
+      "settings": {
+      "github.copilot.enable": {
+          "python": false,
+          "html": false,
+          "css": false,
+          "SQL": false
+        },
+        "chat.agent.enabled": false
+      },
+        "extensions": [
+        "ms-python.python",
+        "yy0931.vscode-sqlite3-editor",
+        "ecmel.vscode-html-css",
       ]
     }
   },
