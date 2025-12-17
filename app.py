@@ -74,50 +74,19 @@ def register():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        
-        if not username or not password:
-            flash('Username and password are required.', 'danger')
-            return render_template('login.html')
-        
-        # Query database
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM users WHERE username = ?', (username,))
-        user = cursor.fetchone()
-        conn.close()
-        
-        if user and check_password_hash(user['password_hash'], password):
-            session['user_id'] = user['id']
-            session['username'] = user['username']
-            flash(f'Welcome back, {username}!', 'success')
-            return redirect(url_for('dashboard'))
-        else:
-            flash('Invalid username or password.', 'danger')
-            return render_template('login.html')
-    
+        flash('Login functionality is not yet implemented.', 'warning')
     return render_template('login.html')
 
 @app.route("/logout")
 def logout():
-    session.clear()
-    flash('You have been logged out.', 'info')
-    return redirect(url_for('index'))
+    flash('Logout not yet implemented.', 'danger')
+    return render_template('login.html')
 
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute(
-        'SELECT * FROM events WHERE user_id = ? ORDER BY due_date ASC',
-        (session['user_id'],)
-    )
-    events = cursor.fetchall()
-    conn.close()
-    
-    return render_template('dashboard.html', events=events)
+    flash('Dashboard functionality is not yet implemented.', 'warning')
+    return render_template('dashboard.html', events=None)
 
 @app.route("/event/create", methods=['GET', 'POST'])
 @login_required
@@ -152,42 +121,8 @@ def create_event():
 @app.route("/event/<int:event_id>/edit", methods=['GET', 'POST'])
 @login_required
 def edit_event(event_id):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    
-    if request.method == 'POST':
-        title = request.form.get('title')
-        description = request.form.get('description')
-        location = request.form.get('location')
-        due_date = request.form.get('due_date')
-        status = request.form.get('status')
-        
-        if not title or not due_date:
-            flash('Title and due date are required.', 'danger')
-            return redirect(url_for('edit_event', event_id=event_id))
-        
-        cursor.execute(
-            '''UPDATE events 
-               SET title = ?, description = ?, location = ?, due_date = ?, status = ?, updated_at = CURRENT_TIMESTAMP
-               WHERE id = ? AND user_id = ?''',
-            (title, description, location, due_date, status, event_id, session['user_id'])
-        )
-        conn.commit()
-        conn.close()
-        
-        flash('Event updated successfully!', 'success')
-        return redirect(url_for('dashboard'))
-    
-    # GET request - fetch event details
-    cursor.execute('SELECT * FROM events WHERE id = ? AND user_id = ?', (event_id, session['user_id']))
-    event = cursor.fetchone()
-    conn.close()
-    
-    if not event:
-        flash('Event not found.', 'danger')
-        return redirect(url_for('dashboard'))
-    
-    return render_template('edit_event.html', event=event)
+    flash('Edit event functionality is not yet implemented.', 'warning')
+    return render_template('edit_event.html', event=None)
 
 @app.route("/event/<int:event_id>/delete", methods=['POST'])
 @login_required
